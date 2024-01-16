@@ -33,7 +33,7 @@ class MetricMiddleware implements MiddlewareInterface
     {
         $labels = [
             'request_status' => '500',
-            'request_path' => $this->getPath($request),
+            'request_path' => sprintf("[%s] %s", $request->getMethod(), $this->getPath($request)),
             'request_method' => $request->getMethod(),
         ];
 
@@ -68,7 +68,7 @@ class MetricMiddleware implements MiddlewareInterface
     protected function countException(ServerRequestInterface $request, Throwable $exception): void
     {
         $labels = [
-            'request_path' => $this->getPath($request),
+            'request_path' => sprintf("[%s] %s", $request->getMethod(), $this->getPath($request)),
             'request_method' => $request->getMethod(),
             'class' => $exception::class,
         ];
